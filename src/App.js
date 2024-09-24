@@ -6,6 +6,7 @@ import About from './pages/About';
 import DApp from './pages/DApp';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import ShoopDashboard from './components/ShoopDashboard';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/dapp" element={<DApp />} />
+            <Route path="/dashboard" element={<ShoopDashboard />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>

@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className="p-4 bg-black text-white flex justify-between items-center font-arcade">
-      <h1 className="text-neonRed">Shoop Shop Duster</h1>
+      {/* Link the 'Shoop Shop Duster' text to the DApp page */}
+      <Link to="/dapp" className="text-neonRed hover:text-neonYellow">
+        Shoop Shop Duster
+      </Link>
       <ul className="flex space-x-4">
         <li><Link to="/" className="hover:text-neonYellow">Home</Link></li>
         <li><Link to="/about" className="hover:text-neonFuschia">About</Link></li>
