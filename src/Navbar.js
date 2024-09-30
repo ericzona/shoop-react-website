@@ -6,7 +6,7 @@ const Navbar = () => {
     <nav className="p-4 bg-black text-white flex justify-between items-center font-arcade">
       {/* Link the 'Shoop Shop Duster' text to the DApp page */}
       <Link to="/dapp" className="text-neonRed hover:text-neonYellow">
-        Shoop Shop Duster
+        The $SHOOP Shop
       </Link>
       <ul className="flex space-x-4">
         <li><Link to="/" className="hover:text-neonYellow">Home</Link></li>

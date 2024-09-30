@@ -17,7 +17,7 @@ const DApp = () => {
         setWalletAddress(response.publicKey.toString());
         setErrorMessage('');
         fetchBalance(response.publicKey);
-        scanForDustTokens(response.publicKey);
+        await scanForDustTokens(response.publicKey); // Ensure this function is called here
       } catch (err) {
         console.error('Wallet connection error:', err);
         setErrorMessage('Failed to connect to wallet. Please try again.');

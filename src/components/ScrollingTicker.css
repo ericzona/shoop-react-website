@@ -1,0 +1,30 @@
+/* ScrollingTicker.css */
+.ticker-container {
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    padding: 10px 0;
+    border-top: 2px solid #FF004D; /* Optional: Add some color to separate the ticker */
+  }
+  
+  .ticker {
+    display: flex;
+    animation: scroll 30s linear infinite; /* Adjust speed as needed */
+  }
+  
+  .ticker-item {
+    padding: 0 20px;
+    white-space: nowrap;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  

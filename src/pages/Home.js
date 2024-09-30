@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div className="p-8 text-center">
-      <h1 className="text-4xl font-arcade text-neonRed">Welcome to $SHOOP Shop Duster!</h1>
-      <p className="text-lg mt-4 text-white">Your one-stop solution for converting and reclaiming tokens.</p>
+      <h1 className="text-4xl font-arcade text-neonRed">Welcome to The $SHOOP Shop!</h1>
+      <p className="text-lg mt-4 text-white">Your one-stop solution for all things $SHOOP.</p>
       
       {/* Add a GIF linking to the DApp */}
       <div className="mt-8">
