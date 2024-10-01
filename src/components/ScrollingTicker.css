@@ -1,30 +1,71 @@
 /* ScrollingTicker.css */
 .ticker-container {
-    overflow: hidden;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: black;
-    padding: 10px 0;
-    border-top: 2px solid #FF004D; /* Optional: Add some color to separate the ticker */
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  padding: 10px 0;
+  border-top: 2px solid #FF004D; /* Adds separation with neon red */
+}
+
+.ticker {
+  display: flex;
+  animation: scroll 30s linear infinite; /* Adjust speed as needed */
+}
+
+.ticker-item {
+  padding: 0 20px;
+  white-space: nowrap;
+  color: white; /* General white text color */
+}
+
+/* Wallet Address for normal purchases */
+.wallet-address.normal-buy {
+  color: #00FF00; /* Neon green for regular buys */
+  text-transform: uppercase;
+}
+
+/* Wallet Address for whales */
+.wallet-address.whale-buy {
+  color: #00FF00; /* Neon green */
+  font-size: 1.25rem; /* Slightly larger font for whale buys */
+}
+
+/* Whale purchases 'BUY' keyword */
+.buy {
+  color: #00FF00; /* Neon green 'Buy' for regular buys */
+  font-weight: bold;
+}
+
+/* Whale 'BUY' keyword */
+.whale-buy {
+  color: #00FF00; /* Neon green 'BUY' for whales */
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Color for SOL amount */
+.sol-amount {
+  color: #FF00FF; /* Neon pink for SOL amount */
+}
+
+/* Color for $SHOOP amount */
+.shoop-amount {
+  color: #00FFFF; /* Neon seafoam-greenish-blue */
+}
+
+/* $SHOOP keyword */
+.shoop-keyword {
+  color: #FF004D; /* Neon red */
+}
+
+/* Keyframes for scrolling animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
   }
-  
-  .ticker {
-    display: flex;
-    animation: scroll 30s linear infinite; /* Adjust speed as needed */
+  100% {
+    transform: translateX(-100%);
   }
-  
-  .ticker-item {
-    padding: 0 20px;
-    white-space: nowrap;
-  }
-  
-  @keyframes scroll {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-  
+}
