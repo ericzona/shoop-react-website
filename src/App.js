@@ -11,20 +11,15 @@ import Layout from './components/Layout'; // Import Layout
 function App() {
   return (
     <Router>
-      <Layout> {/* Layout already contains Navbar and Ticker */}
-        <div className="flex justify-center items-center min-h-screen bg-black">
-          <div className="w-4/5 lg:w-3/5 bg-black border-4 border-neonRed p-4 rounded-lg shadow-lg">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/dapp" element={<DApp />} />
-              <Route path="/dashboard" element={<ShoopDashboard />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
-          </div>
-        </div>
-      </Layout>
+      <Routes>
+        {/* Instead of passing Layout as a wrapper, we use it directly in each route */}
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/dapp" element={<Layout><DApp /></Layout>} />
+        <Route path="/dashboard" element={<Layout><ShoopDashboard /></Layout>} />
+        <Route path="/faq" element={<Layout><FAQ /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+      </Routes>
     </Router>
   );
 }

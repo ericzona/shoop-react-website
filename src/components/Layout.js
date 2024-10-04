@@ -1,101 +1,165 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import Navbar from '../Navbar';
 import ScrollingTicker from './ScrollingTicker';
-import FAQ from '../pages/FAQ'; 
-
 import { Connection, PublicKey } from '@solana/web3.js';
 
 const Layout = ({ children }) => {
-  const [topHolders, setTopHolders] = useState([]);
-  const [recentPurchases, setRecentPurchases] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+	const [topHolders, setTopHolders] = useState([]);
+	const [recentPurchases, setRecentPurchases] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState('');
+	const [solPrice, setSolPrice] = useState(0); // SOL price from CoinGecko
+	const [totalSupply] = useState(999791351.27); // Hardcoded total $SHOOP supply
+	const [shoopSolPrice, setShoopSolPrice] = useState(0); // Calculated SHOOP price
 
-  const QUICKNODE_URL = 'https://solemn-billowing-vineyard.solana-mainnet.quiknode.pro/8e209577e97d88a4823043e4d3fb58b102a9eb31';
+	const QUICKNODE_URL =
+		'https://solemn-billowing-vineyard.solana-mainnet.quiknode.pro/8e209577e97d88a4823043e4d3fb58b102a9eb31';
+	const connection = useMemo(
+		() => new Connection(QUICKNODE_URL),
+		[QUICKNODE_URL]
+	);
+	const tokenMintAddress = useMemo(
+		() => new PublicKey('3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump'),
+		[]
+	);
 
-  // Memoize the connection object
-  const connection = useMemo(() => new Connection(QUICKNODE_URL), [QUICKNODE_URL]);
+	// Function to fetch the top $SHOOP holders
+	const fetchTopHolders = useCallback(async () => {
+		try {
+			setLoading(true);
+			const largestAccounts = await connection.getTokenLargestAccounts(
+				tokenMintAddress
+			);
+			if (largestAccounts?.value) {
+				const topHolders = largestAccounts.value.map((account, index) => ({
+					address: account.address.toBase58(),
+					amount: account.uiAmount,
+					rank:
+						index === 0
+							? '00 - The $SHOOP Bonding Curve For Raydium'
+							: `Rank: ${index + 1}`, // Correct rank
+				}));
+				setTopHolders(topHolders);
+			} else {
+				setError('Error fetching top holders.');
+			}
+		} catch (error) {
+			console.error('Error fetching top holders:', error);
+			setError('Unable to fetch top holders.');
+		} finally {
+			setLoading(false);
+		}
+	}, [connection, tokenMintAddress]);
 
-  // Memoize the tokenMintAddress
-  const tokenMintAddress = useMemo(() => new PublicKey('3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump'), []);
-
-  // Fetch Top Holders with useCallback to memoize
-  const fetchTopHolders = useCallback(async () => {
+	// Function to fetch recent purchases
+	const fetchRecentPurchases = useCallback(async () => {
     try {
-      setLoading(true);
-      const largestAccounts = await connection.getTokenLargestAccounts(tokenMintAddress);
-      
-      if (largestAccounts?.value) {
-        const topHolders = largestAccounts.value.map((account, index) => ({
-          address: account.address.toBase58(),
-          amount: account.uiAmount,
-          rank: index === 0 ? '00 - The $SHOOP Bonding Curve For Raydium' : `${index + 1}`,
-        }));
-        setTopHolders(topHolders);
-      } else {
-        setError('Error fetching top holders.');
-      }
-    } catch (error) {
-      console.error('Error fetching top holders:', error);
-      setError('Unable to fetch top holders.');
-    } finally {
-      setLoading(false);
-    }
-  }, [connection, tokenMintAddress]);
-
-  // Fetch Recent Purchases with useCallback to memoize
-  const fetchRecentPurchases = useCallback(async () => {
-    try {
-      setLoading(true);
       const confirmedSignatures = await connection.getSignaturesForAddress(tokenMintAddress, { limit: 10 });
-      const purchases = [];
+      console.log('Confirmed Signatures:', confirmedSignatures);
   
-      for (let signature of confirmedSignatures) {
-        const transaction = await connection.getParsedTransaction(signature.signature, { maxSupportedTransactionVersion: 0 });
+      const recentPurchasesData = await Promise.all(
+        confirmedSignatures.map(async (signatureObj) => {
+          const transaction = await connection.getParsedTransaction(signatureObj.signature, {
+            maxSupportedTransactionVersion: 0,
+          });
+          console.log('Fetched Transaction:', transaction);
   
-        if (transaction) {
-          const accountKeys = transaction.transaction.message.accountKeys;
+          if (transaction && transaction.meta && transaction.meta.preTokenBalances && transaction.meta.postTokenBalances) {
+            const preTokenBalances = transaction.meta.preTokenBalances;
+            const postTokenBalances = transaction.meta.postTokenBalances;
   
-          // Find SOL amount by checking the change in balance before and after
-          const preBalance = transaction.meta.preBalances[0] / 1e9; // Convert lamports to SOL
-          const postBalance = transaction.meta.postBalances[0] / 1e9; // Convert lamports to SOL
-          const solAmount = preBalance - postBalance; // Difference = purchase amount
+            console.log('preToken Balances:', preTokenBalances);
+            console.log('postToken Balances:', postTokenBalances);
   
-          if (solAmount > 0.05 && accountKeys.length > 0) {
-            purchases.push({
-              signature: signature.signature,
-              amount: solAmount,
-              wallet: accountKeys[0].pubkey.toBase58(),
-            });
+            // We need to filter only relevant $SHOOP transactions
+            if (preTokenBalances.length === 0 || postTokenBalances.length === 0) {
+              console.log('Skipping transaction: No valid $SHOOP balances found');
+              return null; // Skip if no valid balances
+            }
+  
+            const preShoopBalance = preTokenBalances[0]?.uiTokenAmount?.uiAmount || 0;
+            const postShoopBalance = postTokenBalances[0]?.uiTokenAmount?.uiAmount || 0;
+            const shoopReceived = postShoopBalance - preShoopBalance;
+  
+            if (shoopReceived <= 0) {
+              console.log('Skipping transaction: No $SHOOP received');
+              return null; // Skip transactions with no $SHOOP received
+            }
+  
+            const solSpent = transaction.meta.fee / 1e9; // Fee in SOL
+  
+            return {
+              wallet: postTokenBalances[0]?.owner || 'Unknown', // Wallet address
+              amount: solSpent, // SOL spent
+              shoopAmount: shoopReceived > 0 ? shoopReceived : 0, // $SHOOP tokens received
+            };
           }
-        }
-      }
-      setRecentPurchases(purchases);
+          return null; // Skip if no preTokenBalances or postTokenBalances
+        })
+      );
+  
+      setRecentPurchases(recentPurchasesData.flat().filter(Boolean)); // Flatten and remove null values
     } catch (error) {
       console.error('Error fetching recent purchases:', error);
-      setError('Unable to fetch recent purchases.');
-    } finally {
-      setLoading(false);
     }
   }, [connection, tokenMintAddress]);
   
 
-  useEffect(() => {
-    fetchTopHolders();
-    fetchRecentPurchases();
-  }, [fetchTopHolders, fetchRecentPurchases]);
+	// Fetch SOL price from CoinGecko
+	useEffect(() => {
+		fetch(
+			'https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd'
+		)
+			.then((response) => response.json())
+			.then((data) => setSolPrice(data.solana.usd))
+			.catch((error) => console.error('Error fetching SOL price:', error));
+	}, []);
 
-  if (loading) return <p>Loading data...</p>;
-  if (error) return <p>Error: {error}</p>;
+	// Calculate $SHOOP price based on the most recent purchase
+	useEffect(() => {
+		if (recentPurchases.length > 0) {
+			const mostRecentBuy = recentPurchases[0]; // Get the latest buy transaction
+			const shoopTokensBought = mostRecentBuy.shoopAmount; // Shoop tokens received
+			const solSpent = mostRecentBuy.amount; // SOL spent
 
-  return (
-    <div>
-      <Navbar />
-      {children}
-      <FAQ topHolders={topHolders} />
-      <ScrollingTicker recentPurchases={recentPurchases} />
-    </div>
-  );
+			if (shoopTokensBought > 0 && solSpent > 0) {
+				const calculatedShoopSolPrice = solSpent / shoopTokensBought;
+				setShoopSolPrice(calculatedShoopSolPrice); // Store the calculated price
+			}
+		}
+	}, [recentPurchases]);
+
+	// Fetch top holders and recent purchases when component mounts
+	useEffect(() => {
+		fetchTopHolders();
+		fetchRecentPurchases();
+	}, [fetchTopHolders, fetchRecentPurchases]);
+
+	if (loading) return <p>Loading data...</p>;
+	if (error) return <p>Error: {error}</p>;
+
+	return (
+		<div>
+			<Navbar />
+			<p style={{ color: 'red' }}>
+				This is Layout.js rendering the FAQ component
+			</p>{' '}
+			{/* Dummy text */}
+			{children && React.isValidElement(children)
+				? React.cloneElement(children, {
+						topHolders,
+						solPrice,
+						shoopSolPrice,
+				  })
+				: null}
+			<ScrollingTicker
+				recentPurchases={recentPurchases}
+				topHolders={topHolders}
+				totalSupply={totalSupply}
+				solPrice={solPrice}
+			/>
+		</div>
+	);
 };
 
 export default Layout;
