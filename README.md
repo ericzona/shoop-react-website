@@ -129,53 +129,91 @@ TG = [@ShoopDaWhoopSol](https://t.me/ShoopDaWhoopSol)
 
 - as in: Telegram = [https://t.me/ShoopDaWhoopSol](https://t.me/ShoopDaWhoopSol)
 
-Dev is doxxed, TG and X, and growing Community. Check it out for yourself. I did after getting rugged (again)… prob from one of those dudes that went to—— [pump.fun/$shoop](https://pump.fun/3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump)
+Dev is doxxed, TG and X, and growing Community. Check it out for yourself. I did after getting rugged (again) … prob from one of those dudes that went to their respective "rug school" instead of their prospective SHOOP Shop —— instead of going to [pump.fun/$shoop](https://pump.fun/3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump)
+
+$ SHOOP $
 
 - ca: 3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump
 
+==================================================
+
 ## 📁 Project Structure
+
+```markdown
 
 /root: 'shoop-react-website'
     /node_modules
     /public
-    /quicknode-tests
-        /node_modules
-        getParsedTransactions.js
-        getTransactions.js
-        index.js
-        package-lock.json
-        package.json
+        /icons
+            solscan-icon.png
+            telegram-icon.png
+            twitter-icon.png
+        /images
+            /gifs
+                shoop_da_whoop_w1.gif
+                Shoop_man_main.gif
+            /pngs
+                shoop_main.png
+        android-chrome-192x192.png
+        android-chrome-512x512.png
+        apple-touch-icon.png
+        favicon-16x16.png
+        favicon-32x32.png
+        favicon.ico
+        index.html
+        manifest.json
+        robots.txt
+        site.webmanifest
     /scripts
         /quicknode-scripts
             getParsedTransactions.js
-        
+        /shoop-proxy
+            /node_modules
+            fetchData.js
+            package-lock.json
+            package.json
+        /solana-token-script
+            /node_modules
+            fetchTokenSupply.js
+            package-lock.json
+            package.json
     /src
         /components
+            /tests
             Layout.js
             ScrollingTicker.js
             ScrollingTicker.css
             ShoopDashboard.js
-        /pages 
+        /pages
             About.js
             Contact.js
             DApp.js
             FAQ.js
             Home.js
-App.css
-App.js
-App.test.js
-index.css
-index.js
-logo.svg
-Navbar.js
-reportWebVitals.js
-setupTests.js
-solanaUtils.js
-    /test-alchemy
-        /node_modules
-    index.js
-    package-lock.json
-    package.json
+        App.css
+        App.js
+        App.test.js
+        index.css
+        index.js
+        logo.svg
+        Navbar.js
+        reportWebVitals.js
+        setupTests.js
+        solanaUtils.js
+        wallet.js
+    /tests
+        /quicknode-tests
+            /node_modules
+            getParsedTransactions.js
+            getTransactions.js
+            index.js
+            package-lock.json
+            package.json
+        /test-alchemy
+            /node_modules
+            index.js
+            package-lock.json
+            package.json
 .gitignore
 config-overrides.js
 LICENSE
@@ -183,4 +221,9 @@ package-lock.json
 package.json
 postcss.config.js
 README.md
+README.old.md
 tailwind.config.js
+
+```
+
+==================================================
