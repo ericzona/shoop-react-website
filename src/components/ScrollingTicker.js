@@ -1,32 +1,34 @@
 import React from 'react';
 import './ScrollingTicker.css';
 
-const ScrollingTicker = ({ recentPurchases = [], solPrice }) => {
+const ScrollingTicker = ({ recentTransactions = [], solPrice }) => {
   return (
     <div className="ticker-container">
-      <h2>Recent Purchases</h2>
+      {/* Update the title to 'Recent TXs' with a glowing effect */}
+      <h2 className="ticker-title">Recent TXs</h2> 
       <div className="ticker">
-        {recentPurchases.length > 0 ? (
-          recentPurchases.map((purchase, index) => {
-            const walletShort = `${purchase.wallet.slice(0, 6)}`; // First 6 characters of wallet
-            const solSpent = purchase.amount.toFixed(2); // SOL spent
-            const usdValue = (purchase.amount * solPrice).toFixed(2); // USD equivalent
-            
+        {recentTransactions.length > 0 ? (
+          recentTransactions.map((transaction, index) => {
+            const { walletShort, amount, usdValue, type } = transaction;
+
+            // Apply class based on transaction type (buy or sell)
+            const walletClass = type === 'buy' ? 'wallet-address buy' : 'wallet-address sell';
+
             return (
               <span key={index} className="ticker-item">
-                <span className="wallet-address" style={{ color: '#E1B87F' }}>
-                  {walletShort} {/* First 6 chars */}
+                <span className={walletClass}>
+                  {walletShort} {/* First 6 chars of wallet */}
                 </span>{' '}
-                <strong>BUY</strong>{' '}
-                <span className="sol-amount">{solSpent} SOL</span>{' '}
-                <span className="usd-amount" style={{ color: 'green' }}>
+                <span>{type.toUpperCase()}</span>{' '}
+                <span className="sol-amount">{amount} $SHOOP</span>{' '}
+                <span className="usd-amount">
                   (${usdValue} USD)
                 </span>
               </span>
             );
           })
         ) : (
-          <p>No recent purchases found.</p>
+          <p>No recent transactions found.</p>
         )}
       </div>
     </div>

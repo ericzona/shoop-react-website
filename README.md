@@ -132,3 +132,55 @@ TG = [@ShoopDaWhoopSol](https://t.me/ShoopDaWhoopSol)
 Dev is doxxed, TG and X, and growing Community. Check it out for yourself. I did after getting rugged (again)… prob from one of those dudes that went to—— [pump.fun/$shoop](https://pump.fun/3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump)
 
 - ca: 3skaj7TycpF1tgw6D59eYxiay625LisM9993jrgmpump
+
+## 📁 Project Structure
+
+/root: 'shoop-react-website'
+    /node_modules
+    /public
+    /quicknode-tests
+        /node_modules
+        getParsedTransactions.js
+        getTransactions.js
+        index.js
+        package-lock.json
+        package.json
+    /scripts
+        /quicknode-scripts
+            getParsedTransactions.js
+        
+    /src
+        /components
+            Layout.js
+            ScrollingTicker.js
+            ScrollingTicker.css
+            ShoopDashboard.js
+        /pages 
+            About.js
+            Contact.js
+            DApp.js
+            FAQ.js
+            Home.js
+App.css
+App.js
+App.test.js
+index.css
+index.js
+logo.svg
+Navbar.js
+reportWebVitals.js
+setupTests.js
+solanaUtils.js
+    /test-alchemy
+        /node_modules
+    index.js
+    package-lock.json
+    package.json
+.gitignore
+config-overrides.js
+LICENSE
+package-lock.json
+package.json
+postcss.config.js
+README.md
+tailwind.config.js

@@ -35,8 +35,7 @@ const FAQ = ({
 
 	return (
 		<div className='p-8 font-prometo text-white'>
-			<p style={{ color: 'blue' }}>This is FAQ.js component</p>{' '}
-			{/* Dummy text */}
+			<p style={{ color: 'blue' }}>This is FAQ.js component</p>
 			{/* Frequently Asked Questions */}
 			<div className='mb-8'>
 				<h1 className='text-3xl text-neonRed mb-4 font-arcade'>
@@ -69,7 +68,7 @@ const FAQ = ({
 								key={index}
 								className='p-2 border border-neonFuschia rounded bg-gray-800'>
 								<p>
-									<strong>Rank:</strong> {index + 1}
+									<strong>Rank: </strong> {index + 1}
 								</p>
 								<p>
 									<strong>Wallet: </strong>
@@ -77,9 +76,19 @@ const FAQ = ({
 										{`${holder.address.slice(
 											0,
 											6
-										)}...${holder.address.slice(-6)}`}{' '}
-										{/* First 6 and Last 6 */}
-									</span>
+										)}...${holder.address.slice(-6)}`}
+									</span>{' '}
+									{/* Solscan Icon Link */}
+									<a
+										href={`https://solscan.io/account/${holder.address}`}
+										target="_blank"
+										rel="noopener noreferrer">
+										<img
+											src="/icons/solscan-icon.png"
+											alt="SolScan"
+											style={{ width: '10px', height: '10px', marginLeft: '5px' }}
+										/>
+									</a>
 								</p>
 								<p>
 									<strong>$SHOOP Balance: </strong>
@@ -96,7 +105,7 @@ const FAQ = ({
 								<p>
 									<strong>Current SOL Value: </strong>
 									<span>
-										{(holder.amount * shoopSolPrice).toFixed(4)} SOL
+										{(holder.amount * shoopSolPrice).toFixed(6)} SOL
 									</span>
 								</p>
 							</li>

@@ -20,39 +20,40 @@
   color: white; /* General white text color */
 }
 
-/* Wallet Address for normal purchases */
-.wallet-address.normal-buy {
-  color: #00FF00; /* Neon green for regular buys */
+/* Wallet Address for normal purchases (buy orders) */
+.wallet-address.buy {
+  color: #00FF00; /* Neon green for buy orders */
   text-transform: uppercase;
+  text-shadow: 0 0 5px #00FF00; /* Adds glowing effect to buy orders */
 }
 
-/* Wallet Address for whales */
-.wallet-address.whale-buy {
-  color: #00FF00; /* Neon green */
-  font-size: 1.25rem; /* Slightly larger font for whale buys */
+/* Wallet Address for sell orders */
+.wallet-address.sell {
+  color: #FF004D; /* Neon red for sell orders */
+  text-transform: uppercase;
+  text-shadow: 0 0 5px #FF004D; /* Adds glowing effect to sell orders */
 }
 
-/* Whale purchases 'BUY' keyword */
+/* Glowing effect for 'BUY' keyword */
 .buy {
-  color: #00FF00; /* Neon green 'Buy' for regular buys */
+  color: #00FF00; /* Neon green 'Buy' */
   font-weight: bold;
+  text-shadow: 0 0 5px #00FF00; /* Glowing effect */
 }
 
-/* Whale 'BUY' keyword */
-.whale-buy {
-  color: #00FF00; /* Neon green 'BUY' for whales */
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-/* Color for SOL amount */
+/* SOL and SHOOP amounts */
 .sol-amount {
   color: #FF00FF; /* Neon pink for SOL amount */
 }
 
-/* Color for $SHOOP amount */
 .shoop-amount {
   color: #00FFFF; /* Neon seafoam-greenish-blue */
+}
+
+/* USD amount - change to green-gold hue */
+.usd-amount {
+  color: #E1B87F; /* Neon green-gold */
+  text-shadow: 0 0 5px #E1B87F; /* Glowing effect for USD value */
 }
 
 /* $SHOOP keyword */
@@ -68,4 +69,10 @@
   100% {
     transform: translateX(-100%);
   }
+}
+
+/* Title glow effect */
+.ticker-title {
+  color: #FFD700; /* Glowing gold for title */
+  text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
 }
